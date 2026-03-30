@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
 }
 
 body {
@@ -38,6 +38,8 @@ h1 {
 input {
     width: 100%;
     padding: 10px;
+    border: none;
+    border-radius: 5px;
 }
 
 /* Button full width */
@@ -53,6 +55,7 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 /* ================= TABLE ================= */
@@ -80,40 +83,56 @@ button {
 .fa-pen-to-square { color: yellow; }
 .fa-delete-left { color: red; }
 
-/* ================= MOBILE ================= */
+/* ================= TABLE SCROLL (FIX) ================= */
+.wrapper {
+    overflow-x: auto;
+}
+
+/* ================= TABLET ================= */
 @media (max-width: 768px) {
 
     .container {
         grid-template-columns: 1fr;
-        grid-template-areas:
-            "search"
-            "date"
-            "time"
-            "singer"
-            "title"
-            "artist"
-            "button";
+    }
+
+    .add-btn {
+        grid-column: 1 / 2;
     }
 
     button {
         width: 100%;
     }
 }
+
+/* ================= MOBILE ================= */
 @media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
 
     .container {
         grid-template-columns: 1fr;
-        grid-template-areas:
-            "search"
-            "date"
-            "time"
-            "singer"
-            "title"
-            "artist"
-            "button";
+        padding: 15px;
+    }
+
+    input {
+        font-size: 0.9rem;
     }
 
     button {
         width: 100%;
+        font-size: 1rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px;
+        font-size: 0.8rem;
     }
 }
