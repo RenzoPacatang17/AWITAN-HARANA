@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: lightslategray;
+    padding: 20px;
+}
+
+h1 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+/* ================= WRAPPER ================= */
+.wrapper {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+}
+
+/* ================= FORM ================= */
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    background: blue;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+}
+
+/* Button full width */
+.add-btn {
+    grid-column: 1 / 3;
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    padding: 10px 25px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* ================= TABLE ================= */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th,
+.table td {
+    border: 1px solid black;
+    padding: 12px;
+    text-align: center;
+    background: blue;
+    color: white;
+}
+
+/* Icons */
+.actions i {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.fa-pen-to-square { color: yellow; }
+.fa-delete-left { color: red; }
+
+/* ================= MOBILE ================= */
+@media (max-width: 600px) {
+
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "search"
+            "date"
+            "time"
+            "singer"
+            "title"
+            "artist"
+            "button";
+    }
+
+    button {
+        width: 100%;
+    }
+}
