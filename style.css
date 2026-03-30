@@ -81,7 +81,25 @@ button {
 .fa-delete-left { color: red; }
 
 /* ================= MOBILE ================= */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "search"
+            "date"
+            "time"
+            "singer"
+            "title"
+            "artist"
+            "button";
+    }
+
+    button {
+        width: 100%;
+    }
+}
+@media (max-width: 480px) {
 
     .container {
         grid-template-columns: 1fr;
