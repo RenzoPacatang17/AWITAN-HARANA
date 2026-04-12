@@ -3,67 +3,77 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title> AWITAN AND HARANA</title>
+	<title>AWITAN AND HARANA</title>
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="icon" type="text/css" href="images/microphone.png">
+	<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-	<header>
-		<h1>AWITAN & HARANA</h1>
-	</header>
+<header>
+	<h1>AWITAN & HARANA</h1>
+</header>
 
-	<section class="wrapper">
-		<form class="container">
+<section class="wrapper">
+	<form class="container">
 
-    		<div class="date">
-        		<input type="date">
-    		</div>
+		<div class="search">
+			<input type="search" placeholder="Search">
+		</div>
+		
+		<div class="selection">
+			<select class="select" id="type">
+				<option value="">SELECT TYPE</option>
+				<option value="AWITAN KO IKAW">AWITAN KO IKAW</option>
+				<option value="HARANA BALIK KULTURA">HARANA BALIK KULTURA</option>
+			</select>
+		</div>
 
-     		<div class="search">
-        		<input type="search" placeholder="Search">
-    		</div>
-    
-    		<div class="time">
-        		<input type="time">
-    		</div>
-    
-    		<div class="singer">
-        		<input type="text" placeholder="Singer Name">
-    		</div>
-    
-    		<div class="title">
-        		<input type="text" placeholder="Title">
-    		</div>
-    
-    		<div class="artist">
-        		<input type="text" placeholder="Artist">
-    		</div>
+		<div class="date">
+			<input type="date">
+		</div>
 
-    		<div class="add-btn">
-    			<button type="submit">ADD</button>
-    		</div>
-    		
+		<div class="time">
+			<input type="time">
+		</div>
 
-		</form>
-	</section>
-	
-		<br><br>
+		<div class="singer">
+			<input type="text" placeholder="Singer Name">
+		</div>
 
-		<section class="wrapper">
-			<table class="table">
-   			 	<tr>
-        			<th class="date">Date</th>
-        			<th class="time">Time</th>
-        			<th class="singer">Singer Name</th>
-        			<th class="title">Title</th>
-        			<th class="artist">Artist</th>
-        			<th class="actions">Actions</th>
-    			</tr>
-			</table>
-		</section>
-	
-	<script src="js/script.js"></script>
+		<div class="title">
+			<input type="text" placeholder="Title">
+		</div>
+
+		<div class="artist">
+			<input type="text" placeholder="Artist">
+		</div>
+
+		<div class="add-btn">
+			<button type="submit">ADD</button>
+		</div>
+
+	</form>
+</section>
+
+<br><br>
+
+<section class="wrapper">
+	<table class="table">
+		<tr>
+			<th>Date</th>
+			<th>Time</th>
+			<th>Singer</th>
+			<th>Title</th>
+			<th>Artist</th>
+			<th>Type</th>
+			<th>Actions</th>
+		</tr>
+	</table>
+</section>
+
+<script src="js/script.js"></script>
+
 </body>
 </html>
