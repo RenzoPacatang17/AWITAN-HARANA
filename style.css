@@ -21,7 +21,7 @@ h1 {
 /* ================= WRAPPER ================= */
 .wrapper {
     width: 100%;
-    max-width: 700px;
+    max-width: 1000px;
     margin: auto;
     overflow-x: auto;
 }
@@ -84,24 +84,37 @@ button {
 .fa-pen-to-square { color: yellow; }
 .fa-delete-left { color: red; }
 
-/* ================= TABLET ================= */
-@media (max-width: 768px) {
+.select {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+/* ================= TABLET (≤1024px) ================= */
+@media (max-width: 1024px) {
+
+    .wrapper {
+        max-width: 100%;
+        padding: 0 10px;
+    }
 
     .container {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .add-btn {
-        grid-column: 1 / 2;
-    }
-
-    button {
-        width: 100%;
-    }
+    /* ORDERING FOR TABLET */
+    .search { order: 1; }
+    .selection { order: 2; }
+    .date { order: 3; }
+    .time { order: 4; }
+    .singer { order: 5; }
+    .title { order: 6; }
+    .artist { order: 7; }
+    .add-btn { order: 8; grid-column: 1 / -1; }
 }
 
-/* ================= MOBILE ================= */
-@media (max-width: 480px) {
+/* ================= MOBILE (≤768px) ================= */
+@media (max-width: 768px) {
 
     body {
         padding: 10px;
@@ -112,7 +125,7 @@ button {
         text-align: center;
     }
 
-    /* 🔥 SWITCH TO FLEX FOR ORDER CONTROL */
+    /* SWITCH TO SINGLE COLUMN FLEX */
     .container {
         display: flex;
         flex-direction: column;
@@ -120,16 +133,18 @@ button {
         padding: 15px;
     }
 
-    /* 🔥 ORDER FIX (SEARCH FIRST) */
+    /* 🔥 ORDER YOU REQUESTED */
     .search { order: 1; }
-    .date { order: 2; }
-    .time { order: 3; }
-    .singer { order: 4; }
-    .title { order: 5; }
-    .artist { order: 6; }
-    .add-btn { order: 7; }
+    .selection { order: 2; }
+    .date { order: 3; }
+    .time { order: 4; }
+    .singer { order: 5; }
+    .title { order: 6; }
+    .artist { order: 7; }
+    .add-btn { order: 8; }
 
-    input {
+    input,
+    .select {
         font-size: 0.9rem;
     }
 
@@ -142,5 +157,17 @@ button {
     .table td {
         padding: 8px;
         font-size: 0.8rem;
+    }
+}
+
+/* ================= SMALL MOBILE (≤480px optional refinement) ================= */
+@media (max-width: 480px) {
+
+    h1 {
+        font-size: 1.3rem;
+    }
+
+    .container {
+        padding: 10px;
     }
 }

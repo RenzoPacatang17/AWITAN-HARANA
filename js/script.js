@@ -1,189 +1,126 @@
-// Select elements
-const form = document.querySelector('.container');
+const form = document.querySelector('form.container');
 const table = document.querySelector('.table');
 const searchInput = document.querySelector('.search input');
 
-// ------------------
-// Load data from localStorage when page loads
-// ------------------
+// ================= LOAD DATA =================
 window.addEventListener('DOMContentLoaded', () => {
-    const savedData = JSON.parse(localStorage.getItem('songs')) || [];
-    savedData.forEach(item => addRow(item));
+    const saved = JSON.parse(localStorage.getItem('songs')) || [];
+    saved.forEach(addRow);
 });
 
-// ------------------
-// Handle form submit to add a song
-// ------------------
-form.addEventListener('submit', function(e) {
+// ================= SUBMIT =================
+form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // Get values from inputs
+    const type = document.querySelector('#type').value;
     const date = form.querySelector('.date input').value;
     const time = form.querySelector('.time input').value;
     const singer = form.querySelector('.singer input').value;
     const title = form.querySelector('.title input').value;
     const artist = form.querySelector('.artist input').value;
 
-    // Validate
-    if (!date || !time || !singer || !title || !artist) {
-        alert('Please fill in all fields.');
+    if (!type || !date || !time || !singer || !title || !artist) {
+        alert("Please complete all fields!");
         return;
     }
 
-    const song = { date, time, singer, title, artist };
+    const song = { type, date, time, singer, title, artist };
 
-    // Add to table
     addRow(song);
+    saveData(song);
 
-    // Save to localStorage
-    const savedData = JSON.parse(localStorage.getItem('songs')) || [];
-    savedData.push(song);
-    localStorage.setItem('songs', JSON.stringify(savedData));
-
-    // Reset form
     form.reset();
 });
 
-// ------------------
-// Add a row to the table
-// ------------------
+// ================= ADD ROW =================
 function addRow(song) {
     const row = table.insertRow();
 
-    // Format date as MM/DD/YYYY
-    const formattedDate = formatDate(song.date);
+    row.innerHTML = `
+        <td>${formatDate(song.date)}</td>
+        <td>${formatTime(song.time)}</td>
+        <td>${song.singer}</td>
+        <td>${song.title}</td>
+        <td>${song.artist}</td>
+        <td>${song.type}</td>
+        <td class="actions">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <i class="fa-solid fa-delete-left"></i>
+        </td>
+    `;
 
-    // Format time to 12-hour
-    const formattedTime = formatTime12(song.time);
-
-    const cellDate = row.insertCell();
-    cellDate.textContent = formattedDate;
-
-    const cellTime = row.insertCell();
-    cellTime.textContent = formattedTime;
-
-    const cellSinger = row.insertCell();
-    cellSinger.textContent = song.singer;
-
-    const cellTitle = row.insertCell();
-    cellTitle.textContent = song.title;
-
-    const cellArtist = row.insertCell();
-    cellArtist.textContent = song.artist;
-
-    // Actions
-    const cellActions = row.insertCell();
-    cellActions.classList.add('actions');
-
-    const editIcon = document.createElement('i');
-    editIcon.className = 'fa-solid fa-pen-to-square';
-    editIcon.style.cursor = 'pointer';
-    editIcon.style.color = 'yellow';
-    editIcon.title = 'Edit';
-    editIcon.addEventListener('click', () => editRow(row));
-    cellActions.appendChild(editIcon);
-
-    const deleteIcon = document.createElement('i');
-    deleteIcon.className = 'fa-solid fa-delete-left';
-    deleteIcon.style.cursor = 'pointer';
-    deleteIcon.style.color = 'red';
-    deleteIcon.title = 'Delete';
-    deleteIcon.addEventListener('click', () => deleteRow(row));
-    cellActions.appendChild(deleteIcon);
+    row.querySelector('.fa-pen-to-square').onclick = () => editRow(row);
+    row.querySelector('.fa-delete-left').onclick = () => deleteRow(row);
 }
 
-// ------------------
-// Format date as MM/DD/YYYY
-// ------------------
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const year = date.getFullYear();
-    return `${month}/${day}/${year}`;
-}
-
-// ------------------
-// Format 24-hour time to 12-hour
-// ------------------
-function formatTime12(time24) {
-    if (!time24) return "";
-    let [hour, minute] = time24.split(':').map(Number);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    hour = hour % 12;
-    if (hour === 0) hour = 12;
-    return `${hour}:${minute.toString().padStart(2,'0')} ${ampm}`;
-}
-
-// ------------------
-// Delete a row
-// ------------------
-function deleteRow(row) {
-    const index = row.rowIndex - 1;
-    row.remove();
+// ================= SAVE =================
+function saveData(song) {
     const data = JSON.parse(localStorage.getItem('songs')) || [];
-    data.splice(index, 1);
+    data.push(song);
     localStorage.setItem('songs', JSON.stringify(data));
 }
 
-// ------------------
-// Edit a row
-// ------------------
+// ================= DELETE =================
+function deleteRow(row) {
+    const data = JSON.parse(localStorage.getItem('songs')) || [];
+
+    const index = row.rowIndex - 1;
+    data.splice(index, 1);
+
+    localStorage.setItem('songs', JSON.stringify(data));
+    row.remove();
+}
+
+// ================= EDIT =================
 function editRow(row) {
-    // Convert date back to input format (YYYY-MM-DD)
-    document.querySelector('.date input').value = convertToInputDate(row.cells[0].textContent);
-    document.querySelector('.time input').value = convertTo24Hour(row.cells[1].textContent);
-    document.querySelector('.singer input').value = row.cells[2].textContent;
-    document.querySelector('.title input').value = row.cells[3].textContent;
-    document.querySelector('.artist input').value = row.cells[4].textContent;
+    document.querySelector('#type').value = row.cells[5].textContent;
+    form.querySelector('.date input').value = toInputDate(row.cells[0].textContent);
+    form.querySelector('.time input').value = to24(row.cells[1].textContent);
+    form.querySelector('.singer input').value = row.cells[2].textContent;
+    form.querySelector('.title input').value = row.cells[3].textContent;
+    form.querySelector('.artist input').value = row.cells[4].textContent;
 
     deleteRow(row);
 }
 
-// ------------------
-// Convert MM/DD/YYYY back to input YYYY-MM-DD
-// ------------------
-function convertToInputDate(dateStr) {
-    const [month, day, year] = dateStr.split('/');
-    return `${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}`;
+// ================= FORMAT DATE =================
+function formatDate(date) {
+    const d = new Date(date);
+    return `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
 }
 
-// ------------------
-// Convert 12-hour time back to 24-hour
-// ------------------
-function convertTo24Hour(time12) {
-    if (!time12) return '';
-    let [time, ampm] = time12.split(' ');
-    let [hours, minutes] = time.split(':').map(Number);
-    if (ampm === 'PM' && hours < 12) hours += 12;
-    if (ampm === 'AM' && hours === 12) hours = 0;
-    return `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}`;
+// ================= FORMAT TIME =================
+function formatTime(time) {
+    let [h, m] = time.split(":");
+    let ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    return `${h}:${m} ${ampm}`;
 }
 
-// ------------------
-// Live search (filter by singer, title, artist)
-// ------------------
-function filterTable() {
-    const query = searchInput.value.toLowerCase();
+// ================= REVERSE DATE =================
+function toInputDate(str) {
+    let [m, d, y] = str.split("/");
+    return `${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;
+}
+
+// ================= REVERSE TIME =================
+function to24(timeStr) {
+    let [time, ampm] = timeStr.split(" ");
+    let [h, m] = time.split(":");
+
+    if (ampm === "PM" && h < 12) h = +h + 12;
+    if (ampm === "AM" && h == 12) h = 0;
+
+    return `${h.toString().padStart(2,'0')}:${m}`;
+}
+
+// ================= SEARCH =================
+searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase();
     const rows = table.rows;
 
     for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        const cellsText = [
-            row.cells[2].textContent.toLowerCase(),
-            row.cells[3].textContent.toLowerCase(),
-            row.cells[4].textContent.toLowerCase()
-        ].join(' ');
-
-        row.style.display = cellsText.includes(query) ? '' : 'none';
-    }
-}
-
-// Search triggers
-searchInput.addEventListener('input', filterTable);
-searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        filterTable();
+        rows[i].style.display =
+            rows[i].innerText.toLowerCase().includes(q) ? "" : "none";
     }
 });
